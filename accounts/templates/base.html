@@ -3,12 +3,15 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
   </head>
   <body>
     <nav>
       <a href="{% url 'index' %}">Main</a> |
       {% if user.is_authenticated %}
         <span>Hello, {{user.username}}!</span>
+        <a href="{% url 'request_list' %}">My requests</a>
         <form action="{% url 'logout' %}" method="post" style="display:inline;">
           {% csrf_token %}
           <button type="submit">Exit</button>

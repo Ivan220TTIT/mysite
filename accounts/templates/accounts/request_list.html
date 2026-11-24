@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="requests-header">
+  <h2>My design applications</h2>
+  <a href="{% url 'request_create' %}"><button>Create a new request</button></a>
+</div>
+
+  {% if requests %}
+    <ul class="requests-list">
+      {% for req in requests %}
+      <li class="request-card">
+        <div class="request-card-header">
+          <strong>{{ req.title }}</strong> (от {{ req.created_at|date:"d.m.Y H:i"}}}
+        </div>
+        <p class="request-desc">{{ req.description }}</p>
+        <div class="request-footer">
+          <a href="{% url 'request_delete' req.pk %}" style="color: red;">Delete request</a>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="empty-requests">You don't have any applications yet.</p>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="delete-box">
+  <h2>Delete request</h2>
+  <p>Are you sure you want to delete the application?</p>
+  <div class="delete-actions">
+    <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn-danger">Yes, delete!</button>
+  </form>
+  <br>
+  <a href="{% url 'request_list' %}" class="btn-cancel">Cancel</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,25 +1,27 @@
 {% extends "base.html" %}
-{% block content %}
-<div class="requests-header">
-  <h2>My design applications</h2>
-  <a href="{% url 'request_create' %}"><button>Create a new request</button></a>
-</div>
 
-  {% if requests %}
-    <ul class="requests-list">
-      {% for req in requests %}
-      <li class="request-card">
-        <div class="request-card-header">
-          <strong>{{ req.title }}</strong> (от {{ req.created_at|date:"d.m.Y H:i"}}}
+{% block content %}
+    <h1>Welcome to the main page!</h1>
+    <p>This section is available for guests to view</p>
+
+    <p><strong>Заявок в статусе «Принято в работу»: {{ in_progress_count }}</strong></p>
+
+    <h2>Last completed works</h2>
+    {% if completed_requests %}
+        <div class="completed-list">
+            {% for req in completed_requests %}
+                <div class="request-card">
+                    <p><strong>{{ req.title }}</strong> ({{ req.created|date:"d.m.Y H:i" }})</p>
+                    <p>Category: {{ req.category }}</p>
+                    {% if req.design_image %}
+                        <img src="{{ req.design_image.url }}" alt="{{ req.title }}" class="request-image">
+                    {% elif req.photo %}
+                        <img src="{{ req.photo.url }}" alt="{{ req.title }}" class="request-image">
+                    {% endif %}
+                </div>
+            {% endfor %}
         </div>
-        <p class="request-desc">{{ req.description }}</p>
-        <div class="request-footer">
-          <a href="{% url 'request_delete' req.pk %}" style="color: red;">Delete request</a>
-        </div>
-      </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p class="empty-requests">You don't have any applications yet.</p>
-  {% endif %}
+    {% else %}
+        <p>No completed works yet.</p>
+    {% endif %}
 {% endblock %}

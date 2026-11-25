@@ -1,9 +1,22 @@
 {% extends "base.html" %}
+
 {% block content %}
   <h2>New request for interior design</h2>
-  <form method="post">
+  <form method="post" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
-    {{ form.as_p }}
+
+    {% for field in form %}
+      <div class="form-group {% if field.errors %}field-error{% endif %}">
+        <label>{{ field.label }}:</label><br>
+        {{ field }}
+        {% if field.errors %}
+          <div class="error-text">
+            {{ field.errors|striptags }}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+
     <button type="submit">Submit a request</button>
   </form>
 {% endblock %}

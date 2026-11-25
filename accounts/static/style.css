@@ -418,3 +418,66 @@ body > div form input[type="file"]::file-selector-button:hover {
     padding: 30px 0;
     color: #64748b;
 }
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.field-error input {
+  border: 2px solid red;
+  background-color: #ffe6e6;
+}
+
+.error-text {
+  color: red;
+  font-size: 0.9em;
+}
+
+.logout-form {
+  display: inline;
+}
+
+.filter-bar {
+  margin: 15px 0;
+}
+
+.request-meta {
+  margin-top: 8px;
+}
+
+.request-category {
+  color: gray;
+}
+
+.request-status {
+  color: blue;
+  font-weight: bold;
+}
+
+.delete-link {
+  color: red;
+}
+
+.in-progress-counter {
+  margin: 15px 0;
+}
+
+.completed-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.request-image {
+  max-width: 300px;
+  height: auto;
+  display: block;
+  margin-top: 10px;
+}
+
+.field-error input,
+.field-error textarea,
+.field-error select {
+  border: 2px solid red;
+  background-color: #ffe6e6;
+}

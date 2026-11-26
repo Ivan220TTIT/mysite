@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Admin Panel: All Design Requests</h2>
+  <p><a href="{% url 'admin_categories' %}">Manage Categories</a></p>
+
+  {% if requests %}
+    <ul class="requests-list">
+      {% for req in requests %}
+        <li class="request-card">
+          <strong>{{ req.title }}</strong> (от {{ req.user.username }}, {{ req.created|date:"d.m.Y H:i" }})<br>
+          <span>Category: {{ req.category }}</span> |
+          <span>Status: <strong>{{ req.get_status_display }}</strong></span>
+          <p>{{ req.description }}</p>
+          <a href="{% url 'admin_request_edit' req.pk %}">Change status / Upload design</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No requests yet.</p>
+  {% endif %}
+{% endblock %}

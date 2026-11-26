@@ -1,13 +1,48 @@
 from django.shortcuts import render, redirect
-from django.views import generic
 
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from .forms import RegistrationForm, DesignRequestForm
 
-from .forms import RegistrationForm
-from .models import DesignRequest
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views import generic
+from django.urls import reverse_lazy
+from .models import DesignRequest, Category
+
+class AdminRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.is_staff
+
+# 1. Список всех заявок для админа
+class AdminRequestListView(AdminRequiredMixin, generic.ListView):
+    model = DesignRequest
+    template_name = 'accounts/admin_requests.html'
+    context_object_name = 'requests'
+    ordering = ['-created']
+
+# 2. Смена статуса заявки админом
+class AdminRequestUpdateView(AdminRequiredMixin, generic.UpdateView):
+    model = DesignRequest
+    fields = ['status', 'design_image']  # добавьте поле комментария, если оно есть в модели
+    template_name = 'accounts/admin_request_edit.html'
+    success_url = reverse_lazy('admin_requests')
+
+# 3. Управление категориями (список + создание)
+class AdminCategoryListView(AdminRequiredMixin, generic.CreateView):
+    model = Category
+    fields = ['name']
+    template_name = 'accounts/admin_categories.html'
+    success_url = reverse_lazy('admin_categories')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+
+# 4. Удаление категории
+class AdminCategoryDeleteView(AdminRequiredMixin, generic.DeleteView):
+    model = Category
+    template_name = 'accounts/admin_category_confirm_delete.html'
+    success_url = reverse_lazy('admin_categories')
 def index(request):
     completed_requests = DesignRequest.objects.filter(status='done').order_by('-created')[:4]
     in_progress_count = DesignRequest.objects.filter(status='in_progress').count()

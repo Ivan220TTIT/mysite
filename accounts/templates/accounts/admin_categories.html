@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Admin Panel: Categories</h2>
+  <p><a href="{% url 'admin_requests' %}">Back to Requests</a></p>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Category</button>
+  </form>
+
+  <ul>
+    {% for cat in categories %}
+      <li>
+        {{ cat.name }} —
+        <a href="{% url 'admin_category_delete' cat.pk %}" style="color: red;">Delete</a>
+      </li>
+    {% empty %}
+      <li>No categories yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

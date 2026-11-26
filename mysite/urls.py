@@ -18,9 +18,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.conf import settings
 from django.urls import path, include
+from accounts import views as account_views
 
 urlpatterns = [
-    path('superadmin/', admin.site.urls),
+    path('superadmin/', account_views.AdminRequestListView.as_view(), name='superadmin'),
+    path('django-admin/', admin.site.urls),  # запасной вход в системную админку Django
     path("", include('accounts.urls')),
     path("accounts/", include('django.contrib.auth.urls')),
 ]

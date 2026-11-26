@@ -22,7 +22,7 @@ class AdminRequestListView(AdminRequiredMixin, generic.ListView):
 # 2. Смена статуса заявки админом
 class AdminRequestUpdateView(AdminRequiredMixin, generic.UpdateView):
     model = DesignRequest
-    fields = ['status', 'design_image']  # добавьте поле комментария, если оно есть в модели
+    fields = ['status', 'comment', 'design_image']  # добавьте поле комментария, если оно есть в модели
     template_name = 'accounts/admin_request_edit.html'
     success_url = reverse_lazy('admin_requests')
 

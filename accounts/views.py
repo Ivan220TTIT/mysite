@@ -53,7 +53,7 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             User.objects.create_user(
-                username=form.cleaned_data['login'],
+                username=form.cleaned_data['username'],
                 email=form.cleaned_data['email'],
                 first_name=form.cleaned_data['full_name'],
                 password=form.cleaned_data['password']

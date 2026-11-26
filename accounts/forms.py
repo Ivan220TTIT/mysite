@@ -51,6 +51,7 @@ class RegistrationForm(forms.Form):
     password = forms.CharField(
         label='Пароль',
         required=True,
+        widget=forms.PasswordInput,
         error_messages={'invalid': 'Неверный пароль! Попробуй еще раз!.'},
     )
 

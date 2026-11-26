@@ -1,40 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="requests-header">
-    <h2>My design applications</h2>
-    <a href="{% url 'request_create' %}"><button>Create a new request</button></a>
-  </div>
+    <h1>Welcome to the main page!</h1>
+    <p>This section is available for guests to view</p>
 
-  <div class="filter-bar" style="margin: 15px 0;">
-    <strong>Filter by status:</strong>
-    <a href="{% url 'request_list' %}">All</a> |
-    <a href="?status=new">Новая</a> |
-    <a href="?status=in_progress">Принято в работу</a> |
-    <a href="?status=done">Выполнено</a>
-  </div>
+    <p><strong>Заявок в статусе «Принято в работу»: {{ in_progress_count }}</strong></p>
 
-  {% if requests %}
-    <ul class="requests-list">
-      {% for req in requests %}
-        <li class="request-card">
-          <div class="request-card-header">
-            <strong>{{ req.title }}</strong> (от {{ req.created|date:"d.m.Y H:i" }})
-          </div>
-          <br>
-          <span style="color: gray;">Category: {{ req.category }}</span> |
-          <span style="color: blue; font-weight: bold;">Status: {{ req.get_status_display }}</span>
-          <p class="request-desc">{{ req.description }}</p>
-
-          {% if req.status == 'new' %}
-            <div class="request-footer">
-              <a href="{% url 'request_delete' req.pk %}" style="color: red;">Delete request</a>
-            </div>
-          {% endif %}
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p class="empty-requests">No applications found.</p>
-  {% endif %}
+    <h2>Last completed works</h2>
+    {% if completed_requests %}
+        <div class="completed-list">
+            {% for req in completed_requests %}
+                <div class="request-card">
+                    <p><strong>{{ req.title }}</strong> ({{ req.created|date:"d.m.Y H:i" }})</p>
+                    <p>Category: {{ req.category }}</p>
+                    {% if req.design_image %}
+                        <img src="{{ req.design_image.url }}" alt="{{ req.title }}" class="request-image">
+                    {% elif req.photo %}
+                        <img src="{{ req.photo.url }}" alt="{{ req.title }}" class="request-image">
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No completed works yet.</p>
+    {% endif %}
 {% endblock %}

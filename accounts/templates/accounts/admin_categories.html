@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>Admin Panel: Categories</h2>
-  <p><a href="{% url 'admin_requests' %}">Back to Requests</a></p>
+  <h2>Панель администратора: Категории</h2>
+  <p><a href="{% url 'admin_requests' %}">Вернуться к запросам</a></p>
 
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Add Category</button>
+    <button type="submit">Создать категорию</button>
   </form>
 
   <ul>
@@ -17,7 +17,7 @@
         <a href="{% url 'admin_category_delete' cat.pk %}" style="color: red;">Delete</a>
       </li>
     {% empty %}
-      <li>No categories yet.</li>
+      <li>Пока категорий нет.</li>
     {% endfor %}
   </ul>
 {% endblock %}

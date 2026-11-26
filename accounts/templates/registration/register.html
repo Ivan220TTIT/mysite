@@ -1,6 +1,6 @@
 {% extends "base.html" %}
     {% block content %}
-      <h2>Registration of a new guest</h2>
+      <h2>Регистрация нового гостя</h2>
       <form method="post" novalidate>
         {% csrf_token %}
         {% for field in form %}
@@ -15,6 +15,6 @@
           </div>
           {% endfor %}
 
-        <button type="submit">Register</button>
+        <button type="submit">Зарегистрироваться</button>
       </form>
     {% endblock %}

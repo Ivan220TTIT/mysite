@@ -44,8 +44,8 @@ class AdminCategoryDeleteView(AdminRequiredMixin, generic.DeleteView):
     template_name = 'accounts/admin_category_confirm_delete.html'
     success_url = reverse_lazy('admin_categories')
 def index(request):
-    completed_requests = DesignRequest.objects.filter(status='done').order_by('-created')[:4]
-    in_progress_count = DesignRequest.objects.filter(status='in_progress').count()
+    completed_requests = DesignRequest.objects.filter(status='Сделано').order_by('-created')[:4]
+    in_progress_count = DesignRequest.objects.filter(status='В процессе').count()
     return render(request, 'index.html',
                   {'completed_requests': completed_requests, 'in_progress_count': in_progress_count})
 def register(request):
@@ -53,7 +53,7 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             User.objects.create_user(
-                username=form.cleaned_data['username'],
+                username=form.cleaned_data['login'],
                 email=form.cleaned_data['email'],
                 first_name=form.cleaned_data['full_name'],
                 password=form.cleaned_data['password']
@@ -87,7 +87,7 @@ class RequestListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         queryset = DesignRequest.objects.filter(user=self.request.user).order_by('-created')
         status = self.request.GET.get('status')
-        if status in ['new', 'in_progress', 'done']:
+        if status in ['Новая', 'В процессе', 'Сделано']:
             queryset = queryset.filter(status=status)
         return queryset
 
@@ -102,6 +102,6 @@ class RequestDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy('index')
 
     def get_queryset(self):
-        return DesignRequest.objects.filter(user=self.request.user, status='new')
+        return DesignRequest.objects.filter(user=self.request.user, status='Новая')
 
 # Create your views here.

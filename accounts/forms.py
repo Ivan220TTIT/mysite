@@ -15,61 +15,61 @@ class DesignRequestForm(forms.ModelForm):
         if photo:
             ext = os.path.splitext(photo.name)[1].lower()
             if ext not in ['.jpg', '.jpeg', '.png', '.bmp']:
-                raise forms.ValidationError('Photo must be .jpg or .jpeg.')
+                raise forms.ValidationError('Фото только таких форматов как .jpg or .jpeg.')
             if photo.size > 2 * 1024 * 1024:
-                raise forms.ValidationError('Photo must be smaller than 2MB.')
+                raise forms.ValidationError('Фото не должно быть больше 2МБ.')
         return photo
 
 class RegistrationForm(forms.Form):
     full_name = forms.CharField(
-        label='Full Name',
+        label='Полное имя',
         required=True,
         validators=[
             RegexValidator(
                 regex = r'^[а-яА-ЯёЁ\s-]+$',
-                message =  'The full name must contain only Cyrillic letters.'
+                message =  'Введите только русские буквы.'
             )
         ]
     )
 
     username = forms.CharField(
-        label='Username',
+        label='Логин',
         required=True,
         validators=[
             RegexValidator(
                 regex = r'^[A-Za-z][A-Za-z0-9._]*$',
-                message = 'The username must contain only letters, numbers, dots and underscores.'
+                message = 'Логин должен содержать только буквы, цифры и символы.'
             )
         ]
     )
     email = forms.EmailField(
-        label='Email',
+        label='Электронная почта',
         required=True,
-        error_messages={'invalid': 'Enter a valid email address.'},
+        error_messages={'invalid': 'Неверная электронная почта.'},
     )
 
     password = forms.CharField(
-        label='Password',
+        label='Пароль',
         required=True,
-        error_messages={'invalid': 'Enter a valid password.'},
+        error_messages={'invalid': 'Неверный пароль! Попробуй еще раз!.'},
     )
 
     password_confirmation = forms.CharField(
-        label='Confirm Password',
+        label='Повтор пароля',
         required=True,
         widget=forms.PasswordInput,
     )
 
     consent = forms.BooleanField(
-        label = 'Consent to the processing of personal data',
+        label = 'Согласие на обработку персональных данных',
         required=True,
-        error_messages={'required': 'It is necessary to confirm your personal data.'},
+        error_messages={'required': 'Сделайте согласие на обработку персональных данных.'},
     )
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if User.objects.filter(username=username).exists():
-            raise forms.ValidationError('A user with that username already exists.')
+            raise forms.ValidationError('Этот пользователь уже есть.')
         return username
     def clean(self):
         cleaned_data = super().clean()
@@ -77,5 +77,5 @@ class RegistrationForm(forms.Form):
         password_confirmation = cleaned_data.get('password_confirmation')
 
         if password and password_confirmation and password != password_confirmation:
-            raise forms.ValidationError('Passwords do not match.')
+            raise forms.ValidationError('Пароль не совпадает.')
         return cleaned_data

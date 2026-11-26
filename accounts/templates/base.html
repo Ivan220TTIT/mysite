@@ -10,18 +10,18 @@
     <nav>
       <a href="{% url 'index' %}">Design.Pro</a> |
       {% if user.is_authenticated %}
-        <span>Hello, {{user.username}}!</span>
-        <a href="{% url 'request_list' %}">My requests</a>
+        <span>Привет, {{user.username}}!</span>
+        <a href="{% url 'request_list' %}">Мои заявки</a>
         {% if user.is_superuser or user.is_staff %}
-          | <a href="{% url 'admin_requests' %}">Admin panel</a>
+          | <a href="{% url 'admin_requests' %}">Администратор</a>
         {% endif %}
         <form action="{% url 'logout' %}" method="post" style="display:inline;">
           {% csrf_token %}
-          <button type="submit">Exit</button>
+          <button type="submit">Выход</button>
         </form>
       {% else %}
-        <a href="{% url 'login' %}">Entrance</a>
-        <a href="{% url 'register' %}">Registration</a>
+        <a href="{% url 'login' %}">Вход</a>
+        <a href="{% url 'register' %}">Регистрация</a>
       {% endif %}
     </nav>
   <hr>

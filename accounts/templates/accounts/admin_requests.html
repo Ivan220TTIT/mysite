@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>Admin Panel: All Design Requests</h2>
-  <p><a href="{% url 'admin_categories' %}">Manage Categories</a></p>
+  <h2>Панель администратора: Все запросы на дизайн</h2>
+  <p><a href="{% url 'admin_categories' %}">Управление категориями</a></p>
 
   {% if requests %}
     <ul class="requests-list">
@@ -10,24 +10,24 @@
       <div style="display: flex; gap: 20px; flex-wrap: wrap; margin: 12px 0;">
             {% if req.photo %}
               <div>
-                <small style="display: block; color: #64748b; margin-bottom: 4px;">Room / Plan photo:</small>
+                <small style="display: block; color: #64748b; margin-bottom: 4px;">Комната / План фото:</small>
                 <img src="{{ req.photo.url }}" alt="Room photo" style="max-width: 220px; border-radius: 6px; border: 1px solid #cbd5e1;">
               </div>
             {% endif %}
 
             {% if req.design_image %}
               <div>
-                <small style="display: block; color: #16a34a; font-weight: 600; margin-bottom: 4px;">Completed design:</small>
+                <small style="display: block; color: #16a34a; font-weight: 600; margin-bottom: 4px;">Сделанный дизайн:</small>
                 <img src="{{ req.design_image.url }}" alt="Completed design" style="max-width: 220px; border-radius: 6px; border: 2px solid #16a34a;">
               </div>
             {% endif %}
           </div>
         <li class="request-card">
           <strong>{{ req.title }}</strong> (от {{ req.user.username }}, {{ req.created|date:"d.m.Y H:i" }})<br>
-          <span>Category: {{ req.category }}</span> |
-          <span>Status: <strong>{{ req.get_status_display }}</strong></span>
+          <span>Категория: {{ req.category }}</span> |
+          <span>Статус: <strong>{{ req.get_status_display }}</strong></span>
           <p>{{ req.description }}</p>
-          <a href="{% url 'admin_request_edit' req.pk %}">Change status / Upload design</a>
+          <a href="{% url 'admin_request_edit' req.pk %}">Изменить статус / Загрузить дизайн</a>
         </li>
       {% endfor %}
     </ul>

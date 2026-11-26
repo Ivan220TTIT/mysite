@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Welcome to the main page!</h1>
-    <p>This section is available for guests to view</p>
+    <h1>Добро пожаловать на главную страницу сайта!</h1>
+    <p>Эта страница доступна только гостям</p>
 
     <p><strong>Заявок в статусе «Принято в работу»: {{ in_progress_count }}</strong></p>
 
-    <h2>Last completed works</h2>
+    <h2>Последние завершённые работы</h2>
     {% if completed_requests %}
         <div class="completed-list">
             {% for req in completed_requests %}
                 <div class="request-card">
                     <p><strong>{{ req.title }}</strong> ({{ req.created|date:"d.m.Y H:i" }})</p>
-                    <p>Category: {{ req.category }}</p>
+                    <p>Категория: {{ req.category }}</p>
                     {% if req.design_image %}
                         <img src="{{ req.design_image.url }}" alt="{{ req.title }}" class="request-image">
                     {% elif req.photo %}
@@ -22,6 +22,6 @@
             {% endfor %}
         </div>
     {% else %}
-        <p>No completed works yet.</p>
+        <p>Пока нет работ.</p>
     {% endif %}
 {% endblock %}
